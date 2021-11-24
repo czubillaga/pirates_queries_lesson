@@ -1,5 +1,6 @@
 package com.example.codeclan.pirateservice.controller;
 
+import com.example.codeclan.pirateservice.models.Pirate;
 import com.example.codeclan.pirateservice.models.Raid;
 import com.example.codeclan.pirateservice.models.Ship;
 import com.example.codeclan.pirateservice.repository.ShipRepository;
@@ -30,5 +31,10 @@ public class ShipController {
     public ResponseEntity<Ship> createShip(@RequestBody Ship ship){
         shipRepository.save(ship);
         return new ResponseEntity<>(ship, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/ships/pirates")
+    public ResponseEntity<List<Ship>> findShipsThatHavePirateNamedQueryString(@RequestParam(name = "named") String name) {
+        return new ResponseEntity<>(shipRepository.findShipsByPiratesFirstName(name), HttpStatus.OK);
     }
 }

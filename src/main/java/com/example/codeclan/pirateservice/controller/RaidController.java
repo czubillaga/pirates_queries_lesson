@@ -16,11 +16,6 @@ public class RaidController {
     @Autowired
     RaidRepository raidRepository;
 
-    @GetMapping(value = "/raids")
-    public ResponseEntity<List<Raid>> getAllRaids(){
-        return new ResponseEntity<>(raidRepository.findAll(), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/raids/{id}")
     public ResponseEntity getRaid(@PathVariable Long id){
         return new ResponseEntity<>(raidRepository.findById(id), HttpStatus.OK);
@@ -30,6 +25,14 @@ public class RaidController {
     public ResponseEntity<Raid> createRaid(@RequestBody Raid raid){
         raidRepository.save(raid);
         return new ResponseEntity<>(raid, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/raids")
+    public ResponseEntity<List<Raid>> findRaidsFilterByLocation(@RequestParam(name = "location", required = false) String location) {
+        if(location != null) {
+            return new ResponseEntity<>(raidRepository.findRaidByLocation(location), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(raidRepository.findAll(), HttpStatus.OK);
     }
 
 }
