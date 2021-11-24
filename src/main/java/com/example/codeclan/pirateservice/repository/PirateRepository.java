@@ -10,4 +10,6 @@ import java.util.List;
 public interface PirateRepository extends JpaRepository<Pirate, Long> {
 
     List<Pirate> findByAgeGreaterThan(int age);
+    Pirate findPirateByFirstName(String name);
+    List<Pirate> findByRaidsId(Long id);
 }
